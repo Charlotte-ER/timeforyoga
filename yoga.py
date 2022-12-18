@@ -96,9 +96,10 @@ def get_length_of_videos_in_list(api_key, videos, max_playtime):
             response = request.execute()
             
             for item in response['items']:
-                duration = item['contentDetails']['duration']
-                if max_playtime >= duration and
-                video_lengths.update({item['id'] : reformat_playtime_to_minutes(duration)})
+                playtime = item['contentDetails']['duration']
+                duration = reformat_playtime_to_minutes(playtime)
+                if max_playtime >= duration and get_minimum_playtime(max_playtime)<= duration:
+                    video_lengths.update({item['id'] : duration})
     
     return video_lengths
 
