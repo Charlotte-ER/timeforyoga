@@ -71,7 +71,9 @@ def get_videos_in_playlist(api_key, playlist_id):
 
 
 def get_length_of_videos_in_list(api_key, videos, max_playtime):
-    """Given a developer api key and list of video ids, returns dict of videos and their duration in minutes."""
+    """Given a developer api key, list of video ids and maximum available time, 
+    returns dict of videos that have a duration that is no longer than the user's available time
+    and no shorter than 5 minutes less than the user's available time."""
     video_lengths = {}
     batches_needed = int(math.ceil(len(videos)/50))
     batch_index = 0
