@@ -1,4 +1,4 @@
-from yoga import get_user_input, validate, get_acceptable_range, check_link
+from yoga import get_user_input, validate, get_minimum_playtime, check_link
 
 import sys, pytest
 
@@ -47,10 +47,10 @@ def test_validate():
         assert validate("-10")
 
 
-def test_get_acceptable_range():
-    assert get_acceptable_range(50) == (45, 50)
-    assert get_acceptable_range(5) == (0, 5)
-    assert get_acceptable_range(3) == (0, 3)
+def test_get_minimum_playtime():
+    assert get_minimum_playtime(50) == 45
+    assert get_minimum_playtime(5) == 0
+    assert get_minimum_playtime(3) == 0
 
 
 def test_check_link():
