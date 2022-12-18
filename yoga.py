@@ -40,14 +40,6 @@ def validate(str):
     return n
 
 
-def get_minimum_playtime(max):
-    if max <= 5:
-        min = 0
-    else:
-        min = max - 5
-    return min
-
-
 def get_uploads_playlist_from_channel_name(api_key, channel_name):
     """Given developer api key and channel name, returns id of uploads playlist."""
     with build('youtube', 'v3', developerKey=api_key) as youtube:
@@ -109,6 +101,14 @@ def reformat_playtime_to_minutes(t):
     matches = re.search(r'^PT(\d+H)?(\d+)M(\d+)S$', t)
     minutes = int(matches.group(2)) if matches else 0
     return minutes
+
+
+def get_minimum_playtime(max):
+    if max <= 5:
+        min = 0
+    else:
+        min = max - 5
+    return min
 
 
 def check_link(url):
