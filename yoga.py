@@ -14,7 +14,7 @@ def main():
     api_key = os.environ.get('YT_API_KEY')
     uploads_playlist_id = get_uploads_playlist_from_channel_name(api_key, channel_name)
     all_channel_videos = get_videos_in_playlist(api_key, uploads_playlist_id)
-    videos = get_length_of_videos_in_list(api_key, all_channel_videos, max_playtime)
+    videos = get_videos_of_correct_length(api_key, all_channel_videos, max_playtime)
 
     random_video = random.choice(list(videos))
     url = f'https://www.youtube.com/watch?v={random_video}'
@@ -70,22 +70,23 @@ def get_videos_in_playlist(api_key, playlist_id):
     return videos
 
 
-def get_length_of_videos_in_list(api_key, videos, max_playtime):
+def get_videos_of_correct_length(api_key, videos, max_playtime):
     """Given a developer api key, list of video ids and maximum available time, 
     returns dict of videos that have a duration that is no longer than the user's available time
     and no shorter than 5 minutes less than the user's available time."""
+    yt_max_batch_size = 50
     video_lengths = {}
-    batches_needed = int(math.ceil(len(videos)/50))
+    batches_needed = int(math.ceil(len(videos)/yt_max_batch_size))
     batch_index = 0
-
+    
     with build('youtube', 'v3', developerKey=api_key) as youtube:
         for _ in range(batches_needed):
             try:
-                batch = videos[batch_index : batch_index + 50]
+                batch = videos[batch_index : batch_index + yt_max_batch_size]
             except IndexError:
                 batch = videos[batch_index : ]
 
-            batch_index +=50
+            batch_index += yt_max_batch_size
             request = youtube.videos().list(part='contentDetails', id=','.join(batch))
             response = request.execute()
             
