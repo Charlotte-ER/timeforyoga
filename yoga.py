@@ -41,7 +41,7 @@ def validate(str):
 
 
 def get_uploads_playlist_from_channel_name(youtube, channel_name):
-    """Given channel name, returns id of uploads playlist."""
+    """Given channel name, return id of uploads playlist."""
     request = youtube.channels().list(part='contentDetails', forUsername=channel_name)
     response = request.execute()
     return response['items'][0]['contentDetails']['relatedPlaylists']['uploads']
@@ -63,8 +63,10 @@ def get_videos_in_playlist(youtube, playlist_id):
         for item in response['items']:
             videos.append(item['contentDetails']['videoId'])
         nextPageToken = response.get('nextPageToken')
+        
         if not nextPageToken:
             break
+
     return videos
 
 
@@ -90,7 +92,7 @@ def get_videos_of_correct_length(youtube, videos, max_playtime):
         for item in response['items']:
             playtime = item['contentDetails']['duration']
             duration = reformat_playtime_to_minutes(playtime)
-            if max_playtime >= duration and get_minimum_playtime(max_playtime)<= duration:
+            if max_playtime >= duration and get_minimum_playtime(max_playtime) <= duration:
                 video_lengths.update({item['id'] : duration})
     
     return video_lengths
