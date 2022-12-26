@@ -41,14 +41,14 @@ def validate(str):
 
 
 def get_uploads_playlist_from_channel_name(youtube, channel_name):
-    """Given developer api key and channel name, returns id of uploads playlist."""
+    """Given channel name, returns id of uploads playlist."""
     request = youtube.channels().list(part='contentDetails', forUsername=channel_name)
     response = request.execute()
     return response['items'][0]['contentDetails']['relatedPlaylists']['uploads']
 
 
 def get_videos_in_playlist(youtube, playlist_id):
-    """Given developer api key and playlist id, returns list of videos in playlist."""
+    """Given a playlist id, returns list of videos in playlist."""
     nextPageToken = None
     videos = []
     while True:
@@ -69,7 +69,7 @@ def get_videos_in_playlist(youtube, playlist_id):
 
 
 def get_videos_of_correct_length(youtube, videos, max_playtime):
-    """Given a developer api key, list of video ids and maximum available time, 
+    """Given a list of video ids and maximum available time, 
     returns dict of videos that have a duration that is no longer than the user's available time
     and no shorter than 5 minutes less than the user's available time."""
     yt_max_batch_size = 50
