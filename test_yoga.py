@@ -1,4 +1,5 @@
-from yoga import get_user_input, validate, get_minimum_playtime, check_link
+from yoga import get_user_input, validate, get_minimum_playtime, check_link, get_uploads_playlist_from_channel_name, get_videos_in_playlist, get_videos_of_correct_length, reformat_playtime_to_minute
+
 
 import sys, pytest
 
@@ -45,6 +46,22 @@ def test_validate():
         assert validate("0")
     with pytest.raises(SystemExit):
         assert validate("-10")
+
+
+def test_get_uploads_playlist_from_channel_name():
+    ...
+
+
+def test_get_videos_in_playlist():
+    ...
+
+
+def test_get_videos_of_correct_length():
+    ...
+
+
+def test_reformat_playtime_to_minutes():
+    ...
 
 
 def test_get_minimum_playtime():
