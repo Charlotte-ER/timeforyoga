@@ -11,10 +11,10 @@ def main():
 
     max_playtime = validate(get_user_input())
 
-    api_key = os.environ.get('YT_API_KEY')
-    uploads_playlist_id = get_uploads_playlist_from_channel_name(api_key, channel_name)
-    all_channel_videos = get_videos_in_playlist(api_key, uploads_playlist_id)
-    videos = get_videos_of_correct_length(api_key, all_channel_videos, max_playtime)
+    with build('youtube', 'v3', developerKey=os.environ.get('YT_API_KEY')) as youtube:
+        uploads_playlist_id = get_uploads_playlist_from_channel_name(youtube, channel_name)
+        all_channel_videos = get_videos_in_playlist(youtube, uploads_playlist_id)
+        videos = get_videos_of_correct_length(youtube, all_channel_videos, max_playtime)
 
     random_video = random.choice(list(videos))
     url = f'https://www.youtube.com/watch?v={random_video}'
@@ -40,37 +40,35 @@ def validate(str):
     return n
 
 
-def get_uploads_playlist_from_channel_name(api_key, channel_name):
+def get_uploads_playlist_from_channel_name(youtube, channel_name):
     """Given developer api key and channel name, returns id of uploads playlist."""
-    with build('youtube', 'v3', developerKey=api_key) as youtube:
-        request = youtube.channels().list(part='contentDetails', forUsername=channel_name)
+    request = youtube.channels().list(part='contentDetails', forUsername=channel_name)
     response = request.execute()
     return response['items'][0]['contentDetails']['relatedPlaylists']['uploads']
 
 
-def get_videos_in_playlist(api_key, playlist_id):
+def get_videos_in_playlist(youtube, playlist_id):
     """Given developer api key and playlist id, returns list of videos in playlist."""
     nextPageToken = None
     videos = []
-    with build('youtube', 'v3', developerKey=api_key) as youtube:
-        while True:
-            request = youtube.playlistItems().list(
-                    part='contentDetails',
-                    playlistId=playlist_id,
-                    maxResults=50,
-                    pageToken=nextPageToken
-                )
-            response = request.execute()
+    while True:
+        request = youtube.playlistItems().list(
+                part='contentDetails',
+                playlistId=playlist_id,
+                maxResults=50,
+                pageToken=nextPageToken
+            )
+        response = request.execute()
 
-            for item in response['items']:
-                videos.append(item['contentDetails']['videoId'])
-            nextPageToken = response.get('nextPageToken')
-            if not nextPageToken:
-                break
+        for item in response['items']:
+            videos.append(item['contentDetails']['videoId'])
+        nextPageToken = response.get('nextPageToken')
+        if not nextPageToken:
+            break
     return videos
 
 
-def get_videos_of_correct_length(api_key, videos, max_playtime):
+def get_videos_of_correct_length(youtube, videos, max_playtime):
     """Given a developer api key, list of video ids and maximum available time, 
     returns dict of videos that have a duration that is no longer than the user's available time
     and no shorter than 5 minutes less than the user's available time."""
@@ -79,22 +77,21 @@ def get_videos_of_correct_length(api_key, videos, max_playtime):
     batches_needed = int(math.ceil(len(videos)/yt_max_batch_size))
     batch_index = 0
     
-    with build('youtube', 'v3', developerKey=api_key) as youtube:
-        for _ in range(batches_needed):
-            try:
-                batch = videos[batch_index : batch_index + yt_max_batch_size]
-            except IndexError:
-                batch = videos[batch_index : ]
+    for _ in range(batches_needed):
+        try:
+            batch = videos[batch_index : batch_index + yt_max_batch_size]
+        except IndexError:
+            batch = videos[batch_index : ]
 
-            batch_index += yt_max_batch_size
-            request = youtube.videos().list(part='contentDetails', id=','.join(batch))
-            response = request.execute()
-            
-            for item in response['items']:
-                playtime = item['contentDetails']['duration']
-                duration = reformat_playtime_to_minutes(playtime)
-                if max_playtime >= duration and get_minimum_playtime(max_playtime)<= duration:
-                    video_lengths.update({item['id'] : duration})
+        batch_index += yt_max_batch_size
+        request = youtube.videos().list(part='contentDetails', id=','.join(batch))
+        response = request.execute()
+        
+        for item in response['items']:
+            playtime = item['contentDetails']['duration']
+            duration = reformat_playtime_to_minutes(playtime)
+            if max_playtime >= duration and get_minimum_playtime(max_playtime)<= duration:
+                video_lengths.update({item['id'] : duration})
     
     return video_lengths
 
