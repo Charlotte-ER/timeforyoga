@@ -1,10 +1,6 @@
-import argparse, sys, requests, webbrowser
-import os
-
+import argparse, math, os, random, re, requests, sys, webbrowser
 from googleapiclient.discovery import build
-import re
-import math
-import random
+
 
 def main():
     channel_name = 'yogawithadriene'
