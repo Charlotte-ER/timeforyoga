@@ -3,9 +3,8 @@ from googleapiclient.discovery import build
 
 
 def main():
-    channel_name = 'yogawithadriene'
-
-    max_playtime = validate(get_user_input())
+    max_playtime, channel_name = get_user_input()
+    max_playtime = validate(max_playtime)
 
     with build('youtube', 'v3', developerKey=os.environ.get('YT_API_KEY')) as youtube:
         uploads_playlist_id = get_uploads_playlist_from_channel_name(youtube, channel_name)
@@ -20,11 +19,12 @@ def main():
 
 
 def get_user_input():
-    """Get user's input from command line arguments."""
-    parser = argparse.ArgumentParser(description="How long do you have available for yoga?")
-    parser.add_argument('-t', default=30, help="number of minutes available", type=int)
+    """Get available time and channel name from command line arguments."""
+    parser = argparse.ArgumentParser(description='How long do you have available for yoga?')
+    parser.add_argument('-t', default=30, help='number of minutes available', type=int)
+    parser.add_argument('-c', default='yogawithadriene', help='name of youtube channel', type=str)
     args = parser.parse_args()
-    return args.t
+    return args.t, args.c
 
 
 def validate(input):

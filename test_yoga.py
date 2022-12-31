@@ -6,13 +6,17 @@ from googleapiclient.errors import HttpError
 
 
 def test_get_user_input():
-    # Valid command line arguments
+    # Valid number of minutes supplied
     sys.argv = ['yoga.py', '-t', '35']
-    assert get_user_input() == 35
+    assert get_user_input() == (35, 'yogawithadriene')
+
+    # Channel name provided is a string
+    sys.argv = ['yoga.py', '-c', 'avalidchannelname']
+    assert get_user_input() == (30, 'avalidchannelname')
 
     # No command line arguments
     sys.argv = ['yoga.py']
-    assert get_user_input() == 30
+    assert get_user_input() == (30, 'yogawithadriene')
 
     # No flag provided
     sys.argv = ['yoga.py', '35']
