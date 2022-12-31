@@ -20,15 +20,25 @@ def main():
 
 
 def get_user_input():
+    """Get user's input from command line arguments."""
     parser = argparse.ArgumentParser()
     parser.add_argument('-n')
     args = parser.parse_args()
     return args.n
 
 
-def validate(str):
+def validate(input):
+    """
+    Check whether user has supplied a valid input.
+
+    :param input: Number of minutes available
+    :type input: str
+    :raise SystemExit: if input cannot be converted to minutes, or if user has no time available
+    :return: Number of minutes available
+    :rtype: int
+    """
     try:
-        n = int(str)
+        n = int(input)
     except ValueError:
         sys.exit("Enter time in minutes")
     if n <= 0:
@@ -37,14 +47,32 @@ def validate(str):
 
 
 def get_uploads_playlist_from_channel_name(youtube, channel_name):
-    """Given channel name, return id of uploads playlist."""
+    """
+    Given channel name, return id of 'Uploads' playlist.
+    
+    :param youtube: Authenticated YouTube Data API service
+    :type youtube: googleapiclient.discovery.Resource
+    :param channel_name: Name of a YouTube channel
+    :type channel_name: str
+    :return: ID of the playlist containing all videos uploaded by specified channel
+    :rtype: str
+    """
     request = youtube.channels().list(part='contentDetails', forUsername=channel_name)
     response = request.execute()
     return response['items'][0]['contentDetails']['relatedPlaylists']['uploads']
 
 
 def get_videos_in_playlist(youtube, playlist_id):
-    """Given a playlist id, returns list of videos in playlist."""
+    """
+    Given a playlist id, return list of videos in playlist.
+    
+    :param youtube: Authenticated YouTube Data API service
+    :type youtube: googleapiclient.discovery.Resource
+    :param playlist_id: ID of a playlist on YouTube
+    :type playlist_id: str
+    :return: list of IDs of all videos in the specified playlist
+    :rtype: list
+    """
     nextPageToken = None
     videos = []
     while True:
@@ -67,9 +95,26 @@ def get_videos_in_playlist(youtube, playlist_id):
 
 
 def get_videos_of_correct_length(youtube, videos, max_playtime):
-    """Given a list of video ids and maximum available time, 
-    returns dict of videos that have a duration that is no longer than the user's available time
-    and no shorter than 5 minutes less than the user's available time."""
+    """
+    Create a dictionary of videos that make best use of the available time.
+
+    Given a list of video ids and maximum available time, retrieve the playtime
+    in minutes for each video specified in the list. Add videos that have an 
+    acceptable duration to a dictionary containing their video ID and duration
+    in minutes. Videos are too long if their duration exceeds the specified 
+    maximum playtime. The minimum allowed duration of videos is determined by 
+    the get_minimum_playtime function.  Videos that are too long or too short
+    are ignored.
+    
+    :param youtube: Authenticated YouTube Data API service
+    :type youtube: googleapiclient.discovery.Resource
+    :param videos: List of YouTube video IDs
+    :type videos: list
+    :param max_playtime: Maximum duration of video allowed, in whole minutes
+    :type max_playtime: int
+    :return: dictionary of video IDs alongside each video's duration in minutes
+    :rtype: dict
+    """
     yt_max_batch_size = 50
     video_lengths = {}
     batches_needed = int(math.ceil(len(videos)/yt_max_batch_size))
@@ -95,13 +140,28 @@ def get_videos_of_correct_length(youtube, videos, max_playtime):
 
 
 def reformat_playtime_to_minutes(t):
-    """Given a playtime in YouTube's format, returns duration rounded down to nearest whole minute."""
+    """
+    Given a playtime in YouTube's format, return duration rounded down to nearest whole minute.
+    
+    :param t: Duration of video in YouTube's playtime format
+    :type t: str
+    :return: Number of minutes
+    :rtype: int
+    """
     matches = re.search(r'^PT(\d+H)?(\d+)M(\d+)S$', t)
     minutes = int(matches.group(2)) if matches else 0
     return minutes
 
 
 def get_minimum_playtime(max):
+    """
+    Get shortest allowed video duration, defined as 5 minutes less than maximum playtime.
+
+    :param max: Number of minutes available
+    :type max: int
+    :return: Number of minutes
+    :rtype: int
+    """
     if max <= 5:
         min = 0
     else:
@@ -110,6 +170,14 @@ def get_minimum_playtime(max):
 
 
 def check_link(url):
+    """
+    Check if url is a valid link.
+
+    :param url: URL to be checked
+    :type max: str
+    :return: True if link is valid, otherwise False
+    :rtype: bool
+    """
     success_state = False
     try:
         response = requests.get(url)
