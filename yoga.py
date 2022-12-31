@@ -144,9 +144,14 @@ def reformat_playtime_to_minutes(t):
     :return: Number of minutes
     :rtype: int
     """
-    matches = re.search(r'^PT(\d+H)?(\d+)M(\d+)S$', t)
-    minutes = int(matches.group(2)) if matches else 0
-    return minutes
+    matches = re.search(r'^PT(\d+)?H?(\d+)M(\d+)S$', t)
+    if matches:
+        hours = int(matches.group(1)) if matches.group(1) else 0
+        minutes = int(matches.group(2)) if matches.group(2) else 0
+        duration = hours*60 + minutes
+    else:
+        duration = 0
+    return duration
 
 
 def get_minimum_playtime(max):

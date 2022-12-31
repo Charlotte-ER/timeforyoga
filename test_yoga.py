@@ -94,7 +94,7 @@ def test_get_videos_of_correct_length():
 
 
 def test_reformat_playtime_to_minutes():
-    reformat_playtime_to_minutes('PT9H29M59S') == 29
+    reformat_playtime_to_minutes('PT9H29M59S') == 569
     reformat_playtime_to_minutes('PT3M59S') == 3
     reformat_playtime_to_minutes('PT59S') == 0
     reformat_playtime_to_minutes('not a playtime') == 0
