@@ -21,10 +21,10 @@ def main():
 
 def get_user_input():
     """Get user's input from command line arguments."""
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-n')
+    parser = argparse.ArgumentParser(description="How long do you have available for yoga?")
+    parser.add_argument('-t', default=30, help="number of minutes available", type=int)
     args = parser.parse_args()
-    return args.n
+    return args.t
 
 
 def validate(input):
@@ -32,18 +32,14 @@ def validate(input):
     Check whether user has supplied a valid input.
 
     :param input: Number of minutes available
-    :type input: str
-    :raise SystemExit: if input cannot be converted to minutes, or if user has no time available
+    :type input: int
+    :raise SystemExit: if user has no time available
     :return: Number of minutes available
     :rtype: int
     """
-    try:
-        n = int(input)
-    except ValueError:
-        sys.exit("Enter time in minutes")
-    if n <= 0:
+    if input <= 0:
         sys.exit("No time!")
-    return n
+    return input
 
 
 def get_uploads_playlist_from_channel_name(youtube, channel_name):

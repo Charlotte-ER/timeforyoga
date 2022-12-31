@@ -7,12 +7,12 @@ from googleapiclient.errors import HttpError
 
 def test_get_user_input():
     # Valid command line arguments
-    sys.argv = ['yoga.py', '-n', '35']
-    assert get_user_input() == '35'
+    sys.argv = ['yoga.py', '-t', '35']
+    assert get_user_input() == 35
 
     # No command line arguments
     sys.argv = ['yoga.py']
-    assert get_user_input() == None
+    assert get_user_input() == 30
 
     # No flag provided
     sys.argv = ['yoga.py', '35']
@@ -20,33 +20,35 @@ def test_get_user_input():
         assert get_user_input()
 
     # Invalid flag provided
-    sys.argv = ['yoga.py', '-t', '35']
+    sys.argv = ['yoga.py', '-n', '35']
     with pytest.raises(SystemExit):
         assert get_user_input()
 
     # Minutes not provided
-    sys.argv = ['yoga.py', '-n']
+    sys.argv = ['yoga.py', '-t']
+    with pytest.raises(SystemExit):
+        assert get_user_input()
+
+    # Float provided
+    sys.argv = ['yoga.py', '-t', "4.5"]
+    with pytest.raises(SystemExit):
+        assert get_user_input()
+
+    # String provided
+    sys.argv = ['yoga.py', '-t', "cat"]
     with pytest.raises(SystemExit):
         assert get_user_input()
 
 
 def test_validate():
     # Valid minutes
-    assert validate("5") == 5
-
-    # Float provided
-    with pytest.raises(SystemExit):
-        assert validate("4.5")
-
-    # String provided
-    with pytest.raises(SystemExit):
-        assert validate("cat")
+    assert validate(5) == 5
 
     # Time is not positive integer
     with pytest.raises(SystemExit):
-        assert validate("0")
+        assert validate(0)
     with pytest.raises(SystemExit):
-        assert validate("-10")
+        assert validate(-10)
 
 
 def youtube_api_builder_for_tests():
