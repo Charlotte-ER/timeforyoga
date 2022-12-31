@@ -3,16 +3,16 @@ from googleapiclient.discovery import build
 
 
 def main():
-    max_playtime, channel_name = get_user_input()
-    max_playtime = validate(max_playtime)
+    input = get_user_input()
+    max_playtime = validate(input[0])
+    channel_name = input[1]
 
     with build('youtube', 'v3', developerKey=os.environ.get('YT_API_KEY')) as youtube:
         uploads_playlist_id = get_uploads_playlist_from_channel_name(youtube, channel_name)
         all_channel_videos = get_videos_in_playlist(youtube, uploads_playlist_id)
         videos = get_videos_of_correct_length(youtube, all_channel_videos, max_playtime)
 
-    random_video = random.choice(list(videos))
-    url = f'https://www.youtube.com/watch?v={random_video}'
+    url = f'https://www.youtube.com/watch?v={random.choice(list(videos))}'
 
     if check_link(url):
         webbrowser.open_new(url)
