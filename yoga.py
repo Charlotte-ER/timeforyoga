@@ -8,7 +8,7 @@ def main():
     with build('youtube', 'v3', developerKey=os.environ.get('YT_API_KEY')) as youtube:
         uploads_playlist_id = get_uploads_playlist_from_channel_name(youtube, channel_name)
         all_channel_videos = get_videos_in_playlist(youtube, uploads_playlist_id)
-        videos = get_videos_of_correct_length(youtube, all_channel_videos, max_playtime)
+        videos = get_videos_within_5_mins_of_max_duration(youtube, all_channel_videos, max_playtime)
 
     url = f'https://www.youtube.com/watch?v={random.choice(list(videos))}'
 
@@ -83,7 +83,7 @@ def get_videos_in_playlist(youtube, playlist_id):
     return videos
 
 
-def get_videos_of_correct_length(youtube, videos, max_playtime):
+def get_videos_within_5_mins_of_max_duration(youtube, videos, max_playtime):
     """
     Create a dictionary of videos that make best use of the available time.
 
@@ -91,8 +91,8 @@ def get_videos_of_correct_length(youtube, videos, max_playtime):
     in minutes for each video specified in the list. Add videos that have an 
     acceptable duration to a dictionary containing their video ID and duration
     in minutes. Videos are too long if their duration exceeds the specified 
-    maximum playtime. The minimum allowed duration of videos is determined by 
-    the get_minimum_playtime function.  Videos that are too long or too short
+    maximum playtime. The minimum allowed duration of videos is defined as 
+    5 minutes less than maximum playtime. Videos that are too long or too short
     are ignored.
     
     :param youtube: Authenticated YouTube Data API service
@@ -104,6 +104,7 @@ def get_videos_of_correct_length(youtube, videos, max_playtime):
     :return: dictionary of video IDs alongside each video's duration in minutes
     :rtype: dict
     """
+    min_playtime = max_playtime - 5 if max_playtime > 5 else 0
     yt_max_batch_size = 50
     video_lengths = {}
     batches_needed = int(math.ceil(len(videos)/yt_max_batch_size))
@@ -122,7 +123,7 @@ def get_videos_of_correct_length(youtube, videos, max_playtime):
         for item in response['items']:
             playtime = item['contentDetails']['duration']
             duration = reformat_playtime_to_minutes(playtime)
-            if max_playtime >= duration and get_minimum_playtime(max_playtime) <= duration:
+            if max_playtime >= duration and min_playtime <= duration:
                 video_lengths.update({item['id'] : duration})
     
     return video_lengths
@@ -145,22 +146,6 @@ def reformat_playtime_to_minutes(t):
     else:
         duration = 0
     return duration
-
-
-def get_minimum_playtime(max):
-    """
-    Get shortest allowed video duration, defined as 5 minutes less than maximum playtime.
-
-    :param max: Number of minutes available
-    :type max: int
-    :return: Number of minutes
-    :rtype: int
-    """
-    if max <= 5:
-        min = 0
-    else:
-        min = max - 5
-    return min
 
 
 def check_url_is_valid(url):
