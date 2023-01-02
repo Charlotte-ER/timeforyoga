@@ -1,4 +1,4 @@
-from yoga import parse_command_line_arguments, get_minimum_playtime, check_link, get_uploads_playlist_from_channel_name, get_videos_in_playlist, get_videos_of_correct_length, reformat_playtime_to_minutes
+from yoga import parse_command_line_arguments, get_minimum_playtime, check_url_is_valid, get_uploads_playlist_from_channel_name, get_videos_in_playlist, get_videos_of_correct_length, reformat_playtime_to_minutes
 
 import os, pytest, sys
 from googleapiclient.discovery import build
@@ -105,12 +105,12 @@ def test_get_minimum_playtime():
     assert get_minimum_playtime(3) == 0
 
 
-def test_check_link():
+def test_check_url_is_valid():
     # Valid link
-    assert check_link('https://www.google.co.uk/') == True
+    assert check_url_is_valid('https://www.google.co.uk/') == True
 
     # Invalid Link
-    assert check_link('totallyinvalid') == False
+    assert check_url_is_valid('totallyinvalid') == False
 
     # 404 Error
-    assert check_link('https://www.google.com/error') == False
+    assert check_url_is_valid('https://www.google.com/error') == False

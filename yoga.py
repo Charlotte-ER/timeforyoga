@@ -12,7 +12,7 @@ def main():
 
     url = f'https://www.youtube.com/watch?v={random.choice(list(videos))}'
 
-    if check_link(url):
+    if check_url_is_valid(url):
         webbrowser.open_new(url)
 
 
@@ -163,7 +163,7 @@ def get_minimum_playtime(max):
     return min
 
 
-def check_link(url):
+def check_url_is_valid(url):
     """
     Check if url is a valid link.
 
