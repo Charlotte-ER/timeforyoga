@@ -3,7 +3,7 @@ from googleapiclient.discovery import build
 
 
 def main():
-    max_playtime, channel_name = get_user_input()
+    max_playtime, channel_name = parse_command_line_arguments()
 
     with build('youtube', 'v3', developerKey=os.environ.get('YT_API_KEY')) as youtube:
         uploads_playlist_id = get_uploads_playlist_from_channel_name(youtube, channel_name)
@@ -16,17 +16,23 @@ def main():
         webbrowser.open_new(url)
 
 
-def get_user_input():
-    """Get available time and channel name from command line arguments."""
+def parse_command_line_arguments():
+    """
+    Parse command line arguments to get maximum video duration and channel name
+    
+    :return: Number of minutes available and channel name to select video from
+    :rtype: tuple
+    """
     parser = argparse.ArgumentParser(description='How long do you have available for yoga?')
-    parser.add_argument('-t', default=30, help='number of minutes available', type=int)
-    parser.add_argument('-c', default='yogawithadriene', help='name of youtube channel', type=str)
+    parser.add_argument('-t', '--time', default=30, help='number of minutes available', type=int)
+    parser.add_argument('-c', '--channel', default='yogawithadriene', help='name of youtube channel', type=str)
+    
     args = parser.parse_args()
 
-    if args.t <= 0:
+    if args.time <= 0:
         sys.exit("No time!")
 
-    return args.t, args.c
+    return args.time, args.channel
 
 
 def get_uploads_playlist_from_channel_name(youtube, channel_name):

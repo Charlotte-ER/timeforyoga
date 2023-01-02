@@ -1,57 +1,57 @@
-from yoga import get_user_input, get_minimum_playtime, check_link, get_uploads_playlist_from_channel_name, get_videos_in_playlist, get_videos_of_correct_length, reformat_playtime_to_minutes
+from yoga import parse_command_line_arguments, get_minimum_playtime, check_link, get_uploads_playlist_from_channel_name, get_videos_in_playlist, get_videos_of_correct_length, reformat_playtime_to_minutes
 
 import os, pytest, sys
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
 
-def test_get_user_input():
+def test_parse_command_line_arguments():
     # Valid number of minutes supplied
     sys.argv = ['yoga.py', '-t', '35']
-    assert get_user_input() == (35, 'yogawithadriene')
+    assert parse_command_line_arguments() == (35, 'yogawithadriene')
 
     # Channel name provided is a string
     sys.argv = ['yoga.py', '-c', 'avalidchannelname']
-    assert get_user_input() == (30, 'avalidchannelname')
+    assert parse_command_line_arguments() == (30, 'avalidchannelname')
 
     # No command line arguments
     sys.argv = ['yoga.py']
-    assert get_user_input() == (30, 'yogawithadriene')
+    assert parse_command_line_arguments() == (30, 'yogawithadriene')
 
     # No flag provided
     sys.argv = ['yoga.py', '35']
     with pytest.raises(SystemExit):
-        assert get_user_input()
+        assert parse_command_line_arguments()
 
     # Invalid flag provided
     sys.argv = ['yoga.py', '-n', '35']
     with pytest.raises(SystemExit):
-        assert get_user_input()
+        assert parse_command_line_arguments()
 
     # Minutes not provided
     sys.argv = ['yoga.py', '-t']
     with pytest.raises(SystemExit):
-        assert get_user_input()
+        assert parse_command_line_arguments()
 
     # Float provided
     sys.argv = ['yoga.py', '-t', "4.5"]
     with pytest.raises(SystemExit):
-        assert get_user_input()
+        assert parse_command_line_arguments()
 
     # String provided
     sys.argv = ['yoga.py', '-t', "cat"]
     with pytest.raises(SystemExit):
-        assert get_user_input()
+        assert parse_command_line_arguments()
 
     # Zero minutes provided
     sys.argv = ['yoga.py', '-t', "0"]
     with pytest.raises(SystemExit):
-        assert get_user_input()
+        assert parse_command_line_arguments()
 
     # Negative minutes provided
     sys.argv = ['yoga.py', '-t', "-10"]
     with pytest.raises(SystemExit):
-        assert get_user_input()
+        assert parse_command_line_arguments()
 
 
 def youtube_api_builder_for_tests():
