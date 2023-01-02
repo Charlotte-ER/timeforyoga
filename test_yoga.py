@@ -1,4 +1,4 @@
-from yoga import get_user_input, validate, get_minimum_playtime, check_link, get_uploads_playlist_from_channel_name, get_videos_in_playlist, get_videos_of_correct_length, reformat_playtime_to_minutes
+from yoga import get_user_input, get_minimum_playtime, check_link, get_uploads_playlist_from_channel_name, get_videos_in_playlist, get_videos_of_correct_length, reformat_playtime_to_minutes
 
 import os, pytest, sys
 from googleapiclient.discovery import build
@@ -43,16 +43,15 @@ def test_get_user_input():
     with pytest.raises(SystemExit):
         assert get_user_input()
 
-
-def test_validate():
-    # Valid minutes
-    assert validate(5) == 5
-
-    # Time is not positive integer
+    # Zero minutes provided
+    sys.argv = ['yoga.py', '-t', "0"]
     with pytest.raises(SystemExit):
-        assert validate(0)
+        assert get_user_input()
+
+    # Negative minutes provided
+    sys.argv = ['yoga.py', '-t', "-10"]
     with pytest.raises(SystemExit):
-        assert validate(-10)
+        assert get_user_input()
 
 
 def youtube_api_builder_for_tests():
