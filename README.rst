@@ -25,9 +25,6 @@ Installation
 ===================
 Usage
 ===================
-----------------------
-Run the program
-----------------------
 The default duration is 30 minutes, and the default channel is `Yoga With Adriene`_. 
 So this code will launch a randomly selected video from that channel
 where the duration is no longer than 30 minutes, and no shorter than 25 minutes.
@@ -57,17 +54,6 @@ Or you can specify both:
 .. code-block:: bash
 
    python yoga.py -t 10 -c someotherchannel
-
-----------------------
-Reuse the functions
-----------------------
-Each channel on YouTube has a default playlist called 'Uploads', which contains all
-all videos uploaded to that channel. If you have the channel name, then you can get the
-playlist id of that channel's Uploads playlist, by using the ``get_uploads_playlist_from_channel_name()`` 
-function as follows:
-
-.. autofunction:: get_uploads_playlist_from_channel_name()
-    :module: yoga
 
 ===================
 Contributing
