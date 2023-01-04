@@ -49,7 +49,7 @@ Alternatively, you can specify a different YouTube channel using --channel or -c
 
 .. code-block:: bash
 
-   python yoga.py --channel 
+   python yoga.py --channel someotherchannel
    python yoga.py -c someotherchannel
 
 Or you can specify both:
