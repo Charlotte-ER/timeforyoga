@@ -36,13 +36,13 @@ You can specify how many minutes you have available using --time or -t. For exam
 you have 10 minutes for a video, the code below will launch a `Yoga With Adriene`_ video
 that is between 5 and 10 minutes in duration.
 .. code-block:: bash
-    python yoga.py --time 10
-    python yoga.py -t 10
+   python yoga.py --time 10
+   python yoga.py -t 10
 
 Alternatively, you can specify a different YouTube channel using --channel or -c.
 .. code-block:: bash
-    python yoga.py --channel 
-    python yoga.py -c someotherchannel
+   python yoga.py --channel 
+   python yoga.py -c someotherchannel
 
 Or you can specify both:
 .. code-block:: bash
