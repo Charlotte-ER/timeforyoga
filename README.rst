@@ -16,10 +16,10 @@ can specify alterative channel name at command line.
 ===================
 Installation
 ===================
-TODO - Use pip to install.
+**TODO** Use pip to install.
 
 .. code-block:: bash
-    
+
    pip install yoga
 
 ===================
@@ -48,6 +48,7 @@ that is between 5 and 10 minutes in duration.
 Alternatively, you can specify a different YouTube channel using --channel or -c.
 
 .. code-block:: bash
+
    python yoga.py --channel 
    python yoga.py -c someotherchannel
 
@@ -66,6 +67,7 @@ playlist id of that channel's Uploads playlist, by using the ``get_uploads_playl
 function as follows:
 
 .. autofunction:: get_uploads_playlist_from_channel_name()
+    :module: yoga
 
 ===================
 Contributing
@@ -73,7 +75,7 @@ Contributing
 Pull requests are welcome. Please open an issue first to 
 discuss the proposed change. Please update tests as appropriate.
 
-TODO - To install with tools to develop and run tests, please run 
+**TODO** To install with tools to develop and run tests, please run 
 the following in your virtual env:
 
 .. code-block:: bash
