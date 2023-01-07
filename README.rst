@@ -1,8 +1,8 @@
-===================
+=============
 Time for Yoga
-===================
+=============
 
-.. include:: intro.rst
+.. include:: docs/source/intro.rst
 
 .. toctree::
    :maxdepth: 2
