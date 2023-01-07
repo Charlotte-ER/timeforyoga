@@ -5,13 +5,14 @@
 
 Welcome to timeforyoga's documentation!
 =======================================
+.. include:: intro.rst
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-   readme
    usage
+   contribute
 
 Indices and tables
 ==================
