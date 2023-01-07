@@ -1,17 +1,5 @@
-Usage
-=====
-
-Installation
-------------
-
-To use timeforyoga, first install it using pip:
-
-.. code-block:: console
-
-   (.venv) $ pip install timeforyoga
-
 Use the Program
----------------
+===============
 
 The default duration is 30 minutes, and the default channel is `Yoga With Adriene`_. 
 So this code will launch a randomly selected video from that channel
@@ -45,11 +33,3 @@ Or you can specify both:
 
 .. _Yoga With Adriene: https://www.youtube.com/@yogawithadriene
 
-
-Use the Package
----------------
-
-Use the `get_uploads_playlist_from_channel_name` to get the Playlist ID
-that corresponds with the channel's uploads:
-
-.. autofunction:: yoga.get_uploads_playlist_from_channel_name

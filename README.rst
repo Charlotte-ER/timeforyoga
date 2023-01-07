@@ -2,18 +2,18 @@
 Time for Yoga
 =============
 
-.. include:: docs/source/intro.rst
+Play me a yoga video based on how much time I have available.
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+The default YouTube channel is `Yoga With Adriene`_, however users 
+can specify alterative channel name at command line.
 
-   intro
-   usage
-   contribute
+.. _Yoga With Adriene: https://www.youtube.com/@yogawithadriene
 
-.. include:: usage.rst
-.. include:: contribute.rst
+===================
+Usage
+===================
+
+**TODO**
 
 ===================
 License

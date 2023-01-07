@@ -1,6 +1,6 @@
-===================
+============
 Contributing
-===================
+============
 Pull requests are welcome. Please open an issue first to 
 discuss the proposed change. Please update tests as appropriate.
 
@@ -11,3 +11,9 @@ the following in your virtual env:
 
    pip install -e [dev]
 
+=======
+License
+=======
+`MIT`_
+
+.. _MIT: https://choosealicense.com/licenses/mit/

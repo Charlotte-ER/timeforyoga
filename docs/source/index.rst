@@ -3,15 +3,24 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to timeforyoga's documentation!
-=======================================
-.. include:: intro.rst
+Time for Yoga
+=============
+
+Play me a yoga video based on how much time I have available.
+
+The default YouTube channel is `Yoga With Adriene`_, however users 
+can specify alterative channel name at command line.
+
+.. _Yoga With Adriene: https://www.youtube.com/@yogawithadriene
+
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-   usage
+   install
+   program_usage
+   package_usage
    contribute
 
 Indices and tables

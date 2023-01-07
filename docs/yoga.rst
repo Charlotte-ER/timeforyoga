@@ -1,6 +1,3 @@
-yoga package
-============
-
 Submodules
 ----------
 
