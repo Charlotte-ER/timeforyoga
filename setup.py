@@ -5,7 +5,7 @@ with open('README.rst', 'r') as r:
 
 setup(
     name='timeforyoga',
-    version='0.0.1',
+    version='0.0.2',
     description='Play me a yoga video based on how much time I have available.',
     long_description=long_description,
     long_description_content_type='text/x-rst',
@@ -24,7 +24,6 @@ setup(
     install_requires=[
         "argparse",
         "requests",
-        "webbrowser",
         "googleapiclient",
     ],
     extras_require = {
