@@ -40,7 +40,7 @@ that is between 5 and 10 minutes in duration.
    timeforyoga --time 10
    timeforyoga -t 10
 
-Alternatively, you can specify a different YouTube channel using --channel or -c.
+Alternatively, you can specify a different YouTube channel using --channel or -c:
 
 .. code-block:: bash
 
@@ -58,13 +58,16 @@ Or you can specify both:
 Use the Package
 ===============
 
-.. autofunction:: timeforyoga.get_uploads_playlist_from_channel_name
+.. autofunction:: get_uploads_playlist_from_channel_name
+   :module: timeforyoga
 
 .. autofunction:: timeforyoga.get_videos_in_playlist
+   :module: timeforyoga.timeforyoga
 
-.. autofunction:: timeforyoga.get_videos_within_5_mins_of_max_duration
+.. autofunction:: get_videos_within_5_mins_of_max_duration
+   :module: timeforyoga.timeforyoga
 
-.. autofunction:: timeforyoga.reformat_playtime_to_minutes
+.. autofunction:: reformat_playtime_to_minutes
 
 ============
 Contributing
