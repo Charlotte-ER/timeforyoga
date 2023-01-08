@@ -1,7 +1,7 @@
-yoga
+timeforyoga
 ====
 
 .. toctree::
    :maxdepth: 4
 
-   yoga
+   timeforyoga

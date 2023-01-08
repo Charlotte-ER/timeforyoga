@@ -22,10 +22,3 @@ can specify alterative channel name at command line.
    program_usage
    package_usage
    contribute
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

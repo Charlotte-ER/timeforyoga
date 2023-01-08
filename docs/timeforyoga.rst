@@ -1,10 +1,10 @@
 Submodules
 ----------
 
-yoga.yoga module
+timeforyoga.timeforyoga module
 ----------------
 
-.. automodule:: yoga.yoga
+.. automodule:: timeforyoga.timeforyoga
    :members:
    :undoc-members:
    :show-inheritance:
@@ -12,7 +12,7 @@ yoga.yoga module
 Module contents
 ---------------
 
-.. automodule:: yoga
+.. automodule:: timeforyoga
    :members:
    :undoc-members:
    :show-inheritance:
