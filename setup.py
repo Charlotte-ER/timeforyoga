@@ -23,12 +23,7 @@ setup(
     ],
     install_requires=[
         "argparse",
-        "math",
-        "os",
-        "random",
-        "re",
         "requests",
-        "sys",
         "webbrowser",
         "googleapiclient",
     ],
