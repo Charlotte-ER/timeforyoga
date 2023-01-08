@@ -8,7 +8,10 @@ setup(
     version='0.0.1',
     description='Play me a yoga video based on how much time I have available.',
     long_description=long_description,
-    long_description_content_type='text/x-rst'
+    long_description_content_type='text/x-rst',
+    author='Charlotte Padua',
+    author_email='charlotte.e.padua@gmail.com',
+    url='https://github.com/Charlotte-ER/timeforyoga',
     py_modules=['timeforyoga'],
     package_dir={'':'timeforyoga'},
     classifiers=[
