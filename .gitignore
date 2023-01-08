@@ -1,3 +1,6 @@
 __pycache__/
 yoga_env/
 docs/build
+dist/
+*.egg-info/
+MANIFEST.in
